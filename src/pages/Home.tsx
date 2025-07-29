@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import useThemeToggle from "../hooks/useThemeToggle";
+
+// components
+import LaunchTimer from "../components/LaunchTimer";
 
 const nextLaunch = {
   fairings: {
@@ -94,119 +96,42 @@ const nextLaunch = {
 const HomePage = () => {
   const [loading, setLoading] = useState(false);
 
-  const [_, setIsDark] = useThemeToggle();
-
   return (
-    <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-      <Header />
-
+    <>
       {/* Hero Section */}
-      <section className="grid md:grid-cols-2 gap-8 items-center px-6 py-10 max-w-7xl mx-auto">
-        <div>
-          <h2 className="text-4xl font-extrabold mb-4 leading-tight">Explore SpaceX</h2>
-          <p className="mb-6 text-lg">
-            Stay updated with the latest launches, rockets, and SpaceX history.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Link
-              to="/rockets"
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700"
-            >
-              Rockets
-            </Link>
-            <Link
-              to="/launches"
-              className="bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-white px-5 py-2 rounded-lg shadow hover:bg-gray-400 dark:hover:bg-gray-600"
-            >
-              Launches
-            </Link>
+      <section className="flex flex-col gap-6 justify-center px-6 py-16 min-h-screen max-w-7xl mx-auto text-white">
+        <h2 className="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight drop-shadow-md">
+          Journey Beyond Earth
+        </h2>
+        <p className="text-lg md:text-xl max-w-3xl text-gray-200 drop-shadow-sm">
+          From Falcon rockets to interplanetary missions, SpaceX is rewriting the rules of space
+          exploration. Discover the tech, the missions, and the moments that define humanity's next
+          giant leap.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <div className="p-6 bg-white/10 rounded-xl shadow-xl backdrop-blur-lg border border-white/20">
+            <h3 className="text-2xl font-semibold mb-2">Revolutionary Rockets</h3>
+            <p className="text-sm text-gray-300">
+              Learn how Falcon 9 and Starship are redefining launch costs and reusability.
+            </p>
+          </div>
+          <div className="p-6 bg-white/10 rounded-xl shadow-xl backdrop-blur-lg border border-white/20">
+            <h3 className="text-2xl font-semibold mb-2">Historic Launches</h3>
+            <p className="text-sm text-gray-300">
+              Relive the launches that shook the world and paved the way for Mars.
+            </p>
+          </div>
+          <div className="p-6 bg-white/10 rounded-xl shadow-xl backdrop-blur-lg border border-white/20">
+            <h3 className="text-2xl font-semibold mb-2">Mission to Mars</h3>
+            <p className="text-sm text-gray-300">
+              See how SpaceX plans to make life multiplanetary, one mission at a time.
+            </p>
           </div>
         </div>
-        <img
-          src="https://images2.imgbox.com/40/e3/GypSkayF_o.png"
-          alt="Rocket Launch"
-          className="rounded-2xl shadow-xl w-full"
-        />
+        <LaunchTimer />
       </section>
-
-      {/* Next Launch */}
-      <section className="px-6 py-10 max-w-7xl mx-auto">
-        <h3 className="text-2xl font-semibold mb-6">Next Launch</h3>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow">
-            <h4 className="text-xl font-bold mb-2">{nextLaunch.name}</h4>
-            <p className="mb-2">Date: {new Date(nextLaunch.date_utc).toLocaleString()}</p>
-            <p className="text-sm">Launchpad: {nextLaunch.launchpad}</p>
-          </div>
-        )}
-      </section>
-
-      {/* Explore Cards */}
-      <section className="px-6 py-10 max-w-7xl mx-auto">
-        <h3 className="text-2xl font-semibold mb-6">Explore</h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg transition">
-            <h4 className="text-xl font-bold mb-2">Rockets</h4>
-            <p className="text-sm mb-2">View all SpaceX rockets</p>
-            <Link to="/rockets" className="text-blue-500 hover:underline">
-              View All
-            </Link>
-          </div>
-          <div className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg transition">
-            <h4 className="text-xl font-bold mb-2">Launches</h4>
-            <p className="text-sm mb-2">Upcoming and past launches</p>
-            <Link to="/launches" className="text-blue-500 hover:underline">
-              View All
-            </Link>
-          </div>
-          <div className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg transition">
-            <h4 className="text-xl font-bold mb-2">History</h4>
-            <p className="text-sm mb-2">Major milestones in SpaceX's journey</p>
-            <Link to="/history" className="text-blue-500 hover:underline">
-              View All
-            </Link>
-          </div>
-        </div>
-      </section>
-      <Footer />
-    </div>
+    </>
   );
 };
-
-const Header = () => {
-  const [_, setIsDark] = useThemeToggle();
-
-  return (
-    <header className="flex items-center justify-between px-6 py-4 border-b dark:border-gray-800 bg-white dark:bg-gray-800 sticky top-0 z-50">
-      <h1 className="text-2xl font-bold">SpaceX</h1>
-      <nav className="space-x-4 hidden md:block">
-        <Link to="/" className="no-underline text-inherit hover:underline">
-          Home
-        </Link>
-        <Link to="/rockets" className="no-underline text-inherit hover:underline">
-          Rockets
-        </Link>
-        <Link to="/launches" className="no-underline text-inherit hover:underline">
-          Launches
-        </Link>
-        <Link to="/history" className="no-underline text-inherit hover:underline">
-          History
-        </Link>
-        <button type="button" onClick={() => setIsDark((prev: boolean) => !prev)}>
-          Toggle theme
-        </button>
-      </nav>
-      <button className="md:hidden text-sm border px-3 py-1 rounded">Menu</button>
-    </header>
-  );
-};
-
-const Footer = () => (
-  <footer className="mt-16 py-6 border-t dark:border-gray-800 text-center text-sm text-gray-600 dark:text-gray-400">
-    SpaceX Info Web App | Made with ❤️ using SpaceX API & React
-  </footer>
-);
 
 export default HomePage;

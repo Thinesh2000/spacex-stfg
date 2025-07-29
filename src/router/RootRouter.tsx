@@ -8,6 +8,10 @@ import services from "../api/services";
 
 // import { AnimateWrapper } from "../components/animations";
 
+// layouts
+import AppLayout from "../layouts/AppLayout";
+import NotFoundPage from "../pages/NotFoundPage";
+
 // pages
 const Home = lazy(() => import("../pages/Home"));
 const History = lazy(() => import("../pages/History"));
@@ -21,48 +25,56 @@ const LaunchDetails = lazy(() => import("../pages/LaunchDetails"));
 const PublicRoutes: RouteObject[] = [
   {
     path: "/",
-    index: true,
-    Component: Home,
-  },
-  {
-    path: "/history",
-    Component: History,
-  },
-  {
-    path: "/rockets",
-    Component: RocketsListing,
-  },
-  {
-    path: "/rockets/:rocketId",
-    Component: RocketDetails,
-    loader: async ({ params }) => {
-      if (!params.rocketId) {
-        throw new Error("Rocket ID is required");
-      }
-      const data = await services.fetchRocketDetails(params.rocketId);
-      if (!data) {
-        throw new Error("Rocket data not found");
-      }
-      return data;
-    },
-  },
-  {
-    path: "/launches",
-    Component: LaunchesListing,
-  },
-  {
-    path: "/launches/:launchId",
-    Component: LaunchDetails,
-    loader: async ({ params }) => {
-      if (!params.launchId) {
-        throw new Error("Launch ID is required");
-      }
-      const data = await services.fetchLaunchDetails(params.launchId);
-      if (!data) {
-        throw new Error("Launch data not found");
-      }
-      return data;
-    },
+    Component: AppLayout,
+    children: [
+      {
+        index: true,
+        Component: Home,
+      },
+      {
+        path: "/history",
+        Component: History,
+      },
+      {
+        path: "/rockets",
+        Component: RocketsListing,
+      },
+      {
+        path: "/rockets/:rocketId",
+        Component: RocketDetails,
+        loader: async ({ params }) => {
+          if (!params.rocketId) {
+            throw new Error("Rocket ID is required");
+          }
+          const data = await services.fetchRocketDetails(params.rocketId);
+          if (!data) {
+            throw new Error("Rocket data not found");
+          }
+          return data;
+        },
+        errorElement: <NotFoundPage />,
+      },
+      {
+        path: "/launches",
+        Component: LaunchesListing,
+      },
+      {
+        path: "/launches/:launchId",
+        Component: LaunchDetails,
+        loader: async ({ params }) => {
+          if (!params.launchId) {
+            throw new Error("Launch ID is required");
+          }
+          const data = await services.fetchLaunchDetails(params.launchId);
+          if (!data) {
+            throw new Error("Launch data not found");
+          }
+          return data;
+        },
+        errorElement: <NotFoundPage />,
+      },
+      { path: "*", element: <NotFoundPage /> },
+    ],
   },
 ];
 

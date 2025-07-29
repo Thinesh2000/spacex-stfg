@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 
 // utils
 import StorageUtil from "../utils/StorageUtil";
 
 const storageUtil = new StorageUtil(localStorage);
-const useThemeToggle = () => {
+const useThemeToggle = (): [boolean, Dispatch<SetStateAction<boolean>>] => {
   const [isDark, setIsDark] = useState(() => {
     return storageUtil.getFromStorage("theme") === "dark";
   });
